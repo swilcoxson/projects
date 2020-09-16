@@ -51,63 +51,27 @@ pred = knn.predict(val[features])
 
 from sklearn.metrics import accuracy_score
 
-score = accuracy_score(val[target], pred)
+train_results = train
+train_results.drop('maj_male', axis=1)
+train_results['pred'] = knn.predict(train[features])
+train_results['actual'] = train[target]
 
+score = accuracy_score(train[target], train_results['pred'])
+
+print(train_results[:15])
 print(score)
 
 '''
 
-origins = pd.read_csv("/Users/samanthawilcoxson/Documents/Projects/pokemon/Pokemon-Origins-master/data.csv")
-features = ['name', 'origin', 'generation', 'is_legendary', 'percentage_male', 'type1']
-#target = ['type1']
+score = accuracy_score(val[target], pred)
 
-features_trimmed = ['name', 'origin', 'type1']
-features = features_trimmed
+print(score)
 
-column = []
+val_results = val.drop('maj_male', axis=1)
 
+val_results['pred'] = pd.Series(pred)
+val_results['actual'] = val[target]
 
-for i in range(len(data)):
-    column.append(origins.iloc[i]['Origin'])
-
-to_one_hot_encode = ['origin']
-
-data['origin'] = pd.Series(column)
-
-pokemon = pd.get_dummies(data[features], columns = to_one_hot_encode)
-
-
-train, val = train_test_split(pokemon, test_size=0.2) 
-target_train = train['type1']
-target_val = val['type1']
-
-print(train[:5])
-print(val[:5])
-
-train = train.drop(['name', 'type1'], axis = 1)
-val = val.drop(['name', 'type1'], axis = 1)
-
-'''
-
-'''
-research questions:
-    - correlation between type and gender?
-    - generation and type?
-'''
-
-
-'''
-knn = KNeighborsClassifier(n_neighbors=16)
-impute = KNNImputer(n_neighbors=16)
-train_filled = impute.fit_transform(train)
-val_filled = impute.fit_transform(val)
-knn.fit(train_filled, target_train)
-pred = knn.predict(val_filled)
-
-
-
-score = accuracy_score(target_val, pred)
-
-print("accuracy: "+str(score))
+print(val_results[:15])
 
 '''
