@@ -2,14 +2,12 @@ import numpy as np
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.impute import KNNImputer
-from sklearn import preprocessing
 from sklearn.metrics import accuracy_score
 from sklearn.dummy import DummyClassifier
 
 
 data = pd.read_csv("/Users/samanthawilcoxson/Documents/Projects/pokemon/pokemon.csv")
-
+data = data.loc[data['generation'] == 1]  #only first gen
 maj_male = []
 data = data.fillna(value=-1.0)
 for i in range(len(data)):
